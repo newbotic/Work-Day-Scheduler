@@ -1,8 +1,33 @@
 // Display current day
 $(document).ready(function () {
-    $("#currentDay").text(dayjs().format("dddd, MMMM D, YYYY"));
+    $("#currentDay").text(dayjs().format("dddd, MMMM D"));
+
   });
   
+
+//---------------------------update block classes past, present, future
+
+const currentTime = dayjs().hour();
+// console.log(currentTime);
+
+$(".time-block").each(function () { //select all HTML with class .time-block and iterate over each
+  const blockHour = parseInt($(this).attr("id").split("-")[2]);
+  // extract the hour from id of the current timeblock ,split extract third part,
+  //converted to integer using parseInt
+  if (blockHour < currentTime) {
+    $(this).removeClass("present future").addClass("past");
+  } else if (blockHour === currentTime) {
+    $(this).removeClass("past future").addClass("present");
+  } else {
+    $(this).removeClass("past present").addClass("future");
+  }
+});
+
+
+
+
+
+
 
 
 const localStorageData = [
