@@ -1,112 +1,79 @@
 // Display current day
 $(document).ready(function () {
-    $("#currentDay").text(dayjs().format("dddd, MMMM D"));
+  //????for all the script ready
+  $("#currentDay").text(dayjs().format("dddd, MMMM D"));
 
+  // });
+
+  //update block classes past, present, future
+
+  const currentTime = dayjs().hour();
+  // console.log(currentTime);
+
+  $(".time-block").each(function () {
+    //select all HTML with class .time-block and iterate over each
+    const blockHour = parseInt($(this).attr("id").split("-")[2]);
+    // extract the hour from id of the current timeblock ,split extract third part,
+    //converted to integer using parseInt
+    if (blockHour < currentTime) {
+      $(this).removeClass("present future").addClass("past");
+    } else if (blockHour === currentTime) {
+      $(this).removeClass("past future").addClass("present");
+    } else {
+      $(this).removeClass("past present").addClass("future");
+    }
   });
-  
 
-//---------------------------update block classes past, present, future
+  // ?????????????????????
 
-const currentTime = dayjs().hour();
-// console.log(currentTime);
+  const localStorageData = [
+    //
+  ];
 
-$(".time-block").each(function () { //select all HTML with class .time-block and iterate over each
-  const blockHour = parseInt($(this).attr("id").split("-")[2]);
-  // extract the hour from id of the current timeblock ,split extract third part,
-  //converted to integer using parseInt
-  if (blockHour < currentTime) {
-    $(this).removeClass("present future").addClass("past");
-  } else if (blockHour === currentTime) {
-    $(this).removeClass("past future").addClass("present");
-  } else {
-    $(this).removeClass("past present").addClass("future");
+  const today = dayjs().format("DD-MM-YYYY");
+
+  const todayDataIndex = localStorageData.findIndex(function (element) {
+    return element.date === today;
+  });
+
+  if (todayDataIndex >= 0) {
+    const todayData = localStorageData[todayDataIndex];
+
+    // Populate data from local storage to textarea
+    for (let i = 9; i < 18; i++) {
+      $(`#textarea-${i}`).val(todayData.data[i]);
+    }
   }
+
+  // Save data to local storage
+  $(".saveBtn").on("click", function () {
+    var hour = $(this).data("hour");
+    var textareaId = `textarea-${hour}`;
+    var textValue = $("#" + textareaId)
+      .val()
+      .trim();
+
+    if (textValue === "") {
+      // Do nothing if textarea value is empty
+      return;
+    }
+
+    if (todayDataIndex >= 0) {
+      // Update existing entry
+      const todayData = localStorageData[todayDataIndex];
+      todayData.data[hour] = textValue;
+    } else {
+      // Create a new entry for today
+      const todayData = {
+        date: today,
+        data: {
+          [hour]: textValue,
+        },
+      };
+      localStorageData.push(todayData);
+    }
+
+    // Save data back to local storage
+    localStorage.setItem("data", JSON.stringify(localStorageData));
+  });
 });
-
-
-
-
-
-
-
-
-const localStorageData = [
-  {
-    date: "08-12-2023",
-    data: {
-      9: "text at 9AM",
-      10: "text at 9AM",
-      11: "text at 9AM",
-      12: "text at 9AM",
-      13: "text at 9AM",
-      14: "text at 9AM",
-      15: "text at 9AM",
-      16: "text at 9AM",
-      17: "text at 9AM",
-    },
-    date: "09-12-2023",
-    data: {
-      9: "text at 9AM",
-      10: "text at 9AM",
-      11: "text at 9AM",
-      12: "text at 9AM",
-      13: "text at 9AM",
-      14: "text at 9AM",
-      15: "text at 9AM",
-      16: "text at 9AM",
-      17: "text at 9AM",
-    },
-    date: "10-12-2023",
-    data: {
-      9: "text at 9AM",
-      10: "text at 9AM",
-      11: "text at 9AM",
-      12: "text at 9AM",
-      13: "text at 9AM",
-      14: "text at 9AM",
-      15: "text at 9AM",
-      16: "text at 9AM",
-      17: "text at 9AM",
-    },
-  },
-];
-
-const today = dayjs().format("DD-MM-YYYY"); //09-12-2023
-
-//Populating today data from local storage for different date
-const todayDataIndex = localStorageData.findIndex(function (element) {
-  return element.date === today;
-});
-
-if (todayDataIndex < 0) {
-  const todayData = localStorageData[todayDataIndex];
-  //.....
-  //const data9am = todayData.data[9];
-  //show data9am - data5pm to the textarea of each time
-  
-  for(let i = 9; i < 18; i++){
-      $(`#time-block-` + i).val(todayData.data[i]);
-
-  }
-}
-
-//Save data to local storage
-// Add click event listener
-//      In event click listener
-//      Get the value of the textarea that correspond with the button that the user click
-//      if todayDataIndex exist
-//                   const todayData = localStorageData[todayDataIndex];
-//                  todayData.data[time] value of the textarea
-//                  localStorageData[todayDataIndex] = todayData
-//                  localStorage.setItem('data', localStorageData)
-//      else
-//          const todayData = {
-    //          date: '10-12-2023',
-//              data: {}
-//  }
-//                  todayData.data[time] value of the textarea
-//                  localStorageData[todayDataIndex] = todayData
-//                  localStorage.setItem('data', localStorageData)
-
-
-
