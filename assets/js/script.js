@@ -37,7 +37,7 @@ $(document).ready(function () {
   if (todayDataIndex >= 0) {
     const todayData = localStorageData[todayDataIndex];
 
-    // Populate data from local storage to textarea????????
+    // Populate data from local storage to textarea
     for (let i = 9; i < 18; i++) {
       $(`#textarea-${i}`).val(todayData.data[i]);
     }
