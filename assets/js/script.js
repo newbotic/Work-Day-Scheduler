@@ -25,7 +25,7 @@ $(document).ready(function () {
   // Retrieve data from local storage
   // Persist events between refreshes of a page
   const localStorageData = JSON.parse(localStorage.getItem('data')) ||[];
-  console.log(localStorageData);
+  // console.log(localStorageData);
   
 
   const today = dayjs().format("DD-MM-YYYY");
@@ -37,7 +37,7 @@ $(document).ready(function () {
   if (todayDataIndex >= 0) {
     const todayData = localStorageData[todayDataIndex];
 
-    // Populate data from local storage to textarea????????
+    // Populate data from local storage to textarea
     for (let i = 9; i < 18; i++) {
       $(`#textarea-${i}`).val(todayData.data[i]);
     }
