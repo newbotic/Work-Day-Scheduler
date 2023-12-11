@@ -1,9 +1,7 @@
 // Display current day
 $(document).ready(function () {
-  //????for all the script ready
-  $("#currentDay").text(dayjs().format("dddd, MMMM D"));
+  $("#currentDay").text(dayjs().format("dddd, MMMM D YYYY"));
 
-  // });
 
   //update block classes past, present, future
 
@@ -24,11 +22,11 @@ $(document).ready(function () {
     }
   });
 
-  // ?????????????????????
-
-  const localStorageData = [
-    //
-  ];
+  // Retrieve data from local storage
+  // Persist events between refreshes of a page
+  const localStorageData = JSON.parse(localStorage.getItem('data')) ||[];
+  console.log(localStorageData);
+  
 
   const today = dayjs().format("DD-MM-YYYY");
 
@@ -39,7 +37,7 @@ $(document).ready(function () {
   if (todayDataIndex >= 0) {
     const todayData = localStorageData[todayDataIndex];
 
-    // Populate data from local storage to textarea
+    // Populate data from local storage to textarea????????
     for (let i = 9; i < 18; i++) {
       $(`#textarea-${i}`).val(todayData.data[i]);
     }
@@ -77,3 +75,4 @@ $(document).ready(function () {
     localStorage.setItem("data", JSON.stringify(localStorageData));
   });
 });
+
