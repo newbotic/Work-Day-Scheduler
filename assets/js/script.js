@@ -25,7 +25,7 @@ $(document).ready(function () {
   // Retrieve data from local storage
   // Persist events between refreshes of a page
   const localStorageData = JSON.parse(localStorage.getItem('data')) ||[];
-  console.log(localStorageData);
+  // console.log(localStorageData);
   
 
   const today = dayjs().format("DD-MM-YYYY");
